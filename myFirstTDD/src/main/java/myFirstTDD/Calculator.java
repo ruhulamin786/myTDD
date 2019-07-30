@@ -1,26 +1,33 @@
 package myFirstTDD;
 
+import java.util.regex.Pattern;
+
 public class Calculator {
 	
-	private String defaultDelimiter = "\n|,";
-	private String newLineDelimiter = "\n";
+	private String defaultDelimiterRegEx = "[,\n]";
+	private String newLineDelimiterRegEx = "[\n]";
 	private int thresoldNumber=1000;
 	public int add(String numbers) throws NegativeNumberException{
 		
 		int sum=0;
-		boolean isNegativeNumberFound=false;
-		String exceptionMessage = "negatives not allowed - ";
 		if(numbers == null || numbers.isEmpty()){
 			return sum;
 		}
-		String delimiterToUse = defaultDelimiter;
+		boolean isNegativeNumberFound=false;
+		String exceptionMessage = "negatives not allowed - ";
+		String delimiterToUse = defaultDelimiterRegEx;
 		String[] numbersArray = null;
+		 Pattern pattern = null;
 		
 		if(numbers.startsWith("//")){
-			delimiterToUse = (numbers.split(newLineDelimiter)[0]).replace("//", "");
-			numbersArray = numbers.split(newLineDelimiter)[1].split(delimiterToUse);
+			pattern = Pattern.compile(newLineDelimiterRegEx);
+			numbersArray = pattern.split(numbers);
+			delimiterToUse = (numbersArray[0]).replace("//", "");
+			pattern = Pattern.compile(delimiterToUse);
+			numbersArray = pattern.split(numbersArray[1]);
 		}else{
-			numbersArray = numbers.split(delimiterToUse);
+			pattern = Pattern.compile(delimiterToUse);
+			numbersArray = pattern.split(numbers);
 		}
 		for (String number : numbersArray){
 			int parsedNumber = Integer.parseInt(number.trim());

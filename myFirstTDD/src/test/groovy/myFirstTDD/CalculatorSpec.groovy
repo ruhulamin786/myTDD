@@ -38,6 +38,7 @@ class CalculatorSpec extends Specification{
 		"//-\n2-3-5"|10
 		"1,1000 ,1001,9999,5,6,7"  | 1019
 		"//---\n2---3---5"|10
+		"//[,:]\n2,3:5"|10
 	}
 	
 	def "Check For excpetion"(){
